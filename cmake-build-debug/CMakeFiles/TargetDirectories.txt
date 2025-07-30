@@ -1,0 +1,3 @@
+D:/Programmazione/Projects/CLionProjects/ProgettoSSEC/cmake-build-debug/CMakeFiles/Progetto_Software_security.dir
+D:/Programmazione/Projects/CLionProjects/ProgettoSSEC/cmake-build-debug/CMakeFiles/edit_cache.dir
+D:/Programmazione/Projects/CLionProjects/ProgettoSSEC/cmake-build-debug/CMakeFiles/rebuild_cache.dir

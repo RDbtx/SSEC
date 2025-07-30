@@ -1,0 +1,20 @@
+# ninja log v6
+899	1023	7755115136696994	Progetto_Software_security.exe	af8fe5dc9998943b
+59	714	7755103362992109	CMakeFiles/Progetto_Software_security.dir/src/lz4hc.c.obj	4faf8e5fd77af3cb
+396	3269	7755111633416452	CMakeFiles/Progetto_Software_security.dir/main.c.obj	f4c1ce6973a5503
+4	1394	7755103362443566	CMakeFiles/Progetto_Software_security.dir/src/lz4.c.obj	364582c847f91279
+39	479	7755103362792641	CMakeFiles/Progetto_Software_security.dir/src/lz4frame.c.obj	449fd342f380236a
+4	322	7755117890043337	build.ninja	55a298aa3653ecaf
+20	384	7755103362603152	CMakeFiles/Progetto_Software_security.dir/src/lz4file.c.obj	a714d1a46db70c84
+82	505	7755103363221499	CMakeFiles/Progetto_Software_security.dir/src/xxhash.c.obj	927b86e8c95fb2b
+6	899	7755115127770884	CMakeFiles/Progetto_Software_security.dir/menu/utility_functions.c.obj	862cbc76faee6546
+6	1014	7755109113670970	CMakeFiles/Progetto_Software_security.dir/menu/menu_logic.c.obj	6b23a98067f8b2a5
+8	216	7755118027037958	CMakeFiles/Progetto_Software_security.dir/src/lz4file.c.obj	ccf283e20bc702de
+14	319	7755118027097803	CMakeFiles/Progetto_Software_security.dir/src/xxhash.c.obj	591c9334e07c310
+10	335	7755118027057902	CMakeFiles/Progetto_Software_security.dir/src/lz4frame.c.obj	f119f658d7e16048
+11	531	7755118027067875	CMakeFiles/Progetto_Software_security.dir/src/lz4hc.c.obj	c028f42e23568093
+21	1083	7755118027167616	CMakeFiles/Progetto_Software_security.dir/menu/menu_logic.c.obj	c076be6edad53e86
+16	1105	7755118027117740	CMakeFiles/Progetto_Software_security.dir/main.c.obj	a9fac878993c0ca1
+18	1105	7755118027137703	CMakeFiles/Progetto_Software_security.dir/menu/utility_functions.c.obj	3be8d88f9d90f243
+6	1177	7755118027008030	CMakeFiles/Progetto_Software_security.dir/src/lz4.c.obj	12ba4303cb145f04
+1177	1305	7755118038726682	Progetto_Software_security.exe	af8fe5dc9998943b
