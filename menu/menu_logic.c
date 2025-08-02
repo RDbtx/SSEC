@@ -4,10 +4,8 @@
 void path_choice(char *inputPath, char *outputPath) {
     printf("\nIf you want to compress or decompress something\npaste the absolute path to the file:\n");
 
-    if (!fgets(inputPath, MAX_PATH_LEN, stdin)) {
-        fprintf(stderr, "Failed to read input.\n");
-        exit(EXIT_FAILURE);
-    }
+    scanf("%s", inputPath);
+    printf("\nChoosen file:\n%s\n", inputPath);
 }
 
 
@@ -46,13 +44,14 @@ void action_choice(char *inputPath, char *outputPath) {
 bool continue_working_yn() {
     char work_state;
 
-    printf("\nDo you want to exit? [y/n]:");
+    printf("\nDo you want to exit? [y/n]:\n");
+    printf("Your choice:");
     while (scanf(" %c", &work_state) != 1 || (work_state != 'y' && work_state != 'n')) {
         printf("Invalid input. Enter 'y' or 'n':");
     }
 
     if (work_state == 'y') {
-        printf("Goodbye.\nProgram closure..\n");
+        printf("\nGoodbye.\nProgram closure..\n");
         return false;
     }
 
