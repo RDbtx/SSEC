@@ -2,14 +2,14 @@
 #include <stdbool.h>
 
 int main() {
-    char inputPath[MAX_PATH_LEN];
-    char outputPath[MAX_PATH_LEN];
+
+    const FolderPaths paths = folder_creation("LZ4_COMPRESSION", "LZ4_DECOMPRESSION");
+    if (!check_folder_creation(paths)) return 1;
     bool working = true;
 
     while (working) {
         printf("\n---- LZ4 ZIPPER ----\n");
-        path_choice(inputPath, outputPath);
-        action_choice(inputPath, outputPath);
+        action_choice(paths.compression_path, paths.decompression_path);
         working = continue_working_yn();
     }
 

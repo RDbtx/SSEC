@@ -16,5 +16,6 @@
 void getOutputPath(const char *inputPath, const char mode, char *outputPath);
 void compress_file(const char *inputPath, const char *outputPath);
 void decompress_file(const char *inputPath, const char *outputPath);
-
+void compress_every_file(const char *baseInputPath);
+void decompress_every_file(const char *baseInputPath);
 #endif

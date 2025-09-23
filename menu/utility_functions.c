@@ -1,7 +1,6 @@
 #include "utility_functions.h"
 
 
-
 void getOutputPath(const char *inputPath, const char mode, char *outputPath) {
     char fullPath[MAX_PATH_LEN];
     GetFullPathName(inputPath, MAX_PATH_LEN, fullPath, NULL);
@@ -28,14 +27,14 @@ void compress_file(const char *inputPath, const char *outputPath) {
     FILE *fin = fopen(inputPath, "rb");
     FILE *fout = fopen(outputPath, "wb");
 
-    if(!fin) {
-        printf("%s",inputPath);
+    if (!fin) {
+        printf("%s", inputPath);
         printf("Error input path\n");
         exit(EXIT_FAILURE);
     }
 
-    if(!fout) {
-        printf("%s",outputPath);
+    if (!fout) {
+        printf("%s", outputPath);
         printf("Error output path\n");
         exit(EXIT_FAILURE);
     }
@@ -66,14 +65,14 @@ void decompress_file(const char *inputPath, const char *outputPath) {
     FILE *fin = fopen(inputPath, "rb");
     FILE *fout = fopen(outputPath, "wb");
 
-    if(!fin) {
-        printf("%s",inputPath);
+    if (!fin) {
+        printf("%s", inputPath);
         printf("Error input path\n");
         exit(EXIT_FAILURE);
     }
 
-    if(!fout) {
-        printf("%s",outputPath);
+    if (!fout) {
+        printf("%s", outputPath);
         printf("Error output path\n");
         exit(EXIT_FAILURE);
     }
@@ -96,3 +95,64 @@ void decompress_file(const char *inputPath, const char *outputPath) {
     printf("\n- %s\nDecompressed to:\n- %s\n", inputPath, outputPath);
 }
 
+void compress_every_file(const char *baseInputPath) {
+    char pattern[MAX_PATH];
+    snprintf(pattern, sizeof(pattern), "%s\\*", baseInputPath);
+
+    WIN32_FIND_DATAA ffd;
+    HANDLE hFind = FindFirstFileA(pattern, &ffd);
+    if (hFind == INVALID_HANDLE_VALUE) {
+        printf("No items found or cannot open directory: %s (err=%lu)\n", baseInputPath, GetLastError());
+        return;
+    }
+
+    int count = 0;
+    do {
+
+        if (!(ffd.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY)) {
+            char itemIn[MAX_PATH];
+            snprintf(itemIn, sizeof(itemIn), "%s\\%s", baseInputPath, ffd.cFileName);
+
+            char itemOut[MAX_PATH];
+            getOutputPath(itemIn, 'c', itemOut);
+
+            printf(">> Compressing file: %s\n", itemIn);
+            compress_file(itemIn, itemOut);
+            ++count;
+        }
+    } while (FindNextFileA(hFind, &ffd));
+
+    FindClose(hFind);
+    printf("Compression done. Processed %d file(s).\n", count);
+}
+
+void decompress_every_file(const char *baseInputPath) {
+    char pattern[MAX_PATH];
+    snprintf(pattern, sizeof(pattern), "%s\\*", baseInputPath);
+
+    WIN32_FIND_DATAA ffd;
+    HANDLE hFind = FindFirstFileA(pattern, &ffd);
+    if (hFind == INVALID_HANDLE_VALUE) {
+        printf("No items found or cannot open directory: %s (err=%lu)\n", baseInputPath, GetLastError());
+        return;
+    }
+
+    int count = 0;
+    do {
+
+        if (!(ffd.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY)) {
+            char itemIn[MAX_PATH];
+            snprintf(itemIn, sizeof(itemIn), "%s\\%s", baseInputPath, ffd.cFileName);
+
+            char itemOut[MAX_PATH];
+            getOutputPath(itemIn, 'd', itemOut);
+
+            printf(">> Decompressing file: %s\n", itemIn);
+            decompress_file(itemIn, itemOut);
+            ++count;
+        }
+    } while (FindNextFileA(hFind, &ffd));
+
+    FindClose(hFind);
+    printf("Decompression done. Processed %d file(s).\n", count);
+}

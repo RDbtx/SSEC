@@ -1,42 +1,26 @@
 #include "menu_logic.h"
 
 
-void path_choice(char *inputPath, char *outputPath) {
-    printf("\nIf you want to compress or decompress something\npaste the absolute path to the file:\n");
+void action_choice(const char *compressionPath, const char *decompressionPath) {
+    char choice;
 
-    scanf("%s", inputPath);
-    printf("\nChoosen file:\n%s\n", inputPath);
-}
+    printf("\nDo you want to: compress, decompress or exit the program? [c/d/e]:\n");
+    printf("Your choice: ");
 
-
-void action_choice(char *inputPath, char *outputPath) {
-    char action_choice;
-
-    printf("\nDo you want to: compress, decompress, go back or exit the program? [c/d/b/e]:\n");
-    printf("Your choice:");
-
-    while (scanf(" %c", &action_choice) != 1 ||
-           (action_choice != 'c' && action_choice != 'd' && action_choice != 'b' && action_choice != 'e')) {
-        printf("Invalid input! Please enter one of [c/d/b/e]:");
+    while (scanf("%c", &choice) != 1 ||
+           (choice != 'c' && choice != 'd' && choice != 'e')) {
+        printf("Invalid input! Please enter one of [c/d/e]: ");
     }
 
-
-    if (action_choice == 'b') {
-        printf("Going back to path selection...\n");
-        path_choice(inputPath, outputPath);
-    }
-
-    if (action_choice == 'e') {
+    if (choice == 'e') {
         printf("Goodbye.\nProgram closure..\n");
         exit(0);
     }
 
-    getOutputPath(inputPath, action_choice, outputPath);
-
-    if (action_choice == 'c') {
-        compress_file(inputPath, outputPath);
-    } else if (action_choice == 'd') {
-        decompress_file(inputPath, outputPath);
+    if (choice == 'c') {
+        compress_every_file(compressionPath);
+    } else if (choice == 'd') {
+        decompress_every_file(decompressionPath);
     }
 }
 
@@ -57,4 +41,47 @@ bool continue_working_yn() {
 
     printf("\n");
     return true;
+}
+
+FolderPaths folder_creation() {
+    const char *compression = "LZ4_COMPRESSION";
+    const char *decompression = "LZ4_EXTRACTION";
+    FolderPaths fp = {{0}, {0}, false};
+
+    printf("\n\n---- UTILITY CREATION ----\n\nStaging folder creation...\n");
+
+    char desktopPath[MAX_PATH];
+    if (!SUCCEEDED(SHGetFolderPathA(NULL, CSIDL_DESKTOPDIRECTORY, NULL, 0, desktopPath))) {
+        printf("Failed to get Desktop path.\n");
+        return fp;
+    }
+
+    if (snprintf(fp.compression_path, sizeof(fp.compression_path), "%s\\%s", desktopPath, compression) < 0) {
+        printf("Path formatting error (compression).\n");
+        return fp;
+    }
+    if (snprintf(fp.decompression_path, sizeof(fp.decompression_path), "%s\\%s", desktopPath, decompression) < 0) {
+        printf("Path formatting error (decompression).\n");
+        return fp;
+    }
+
+    bool ok1 = (CreateDirectoryA(fp.compression_path, NULL) || GetLastError() == ERROR_ALREADY_EXISTS);
+    if (ok1) printf("Compression folder ready at: %s\n", fp.compression_path);
+    else printf("Failed to create '%s'. Error: %lu\n", fp.compression_path, GetLastError());
+
+    SetLastError(0);
+    bool ok2 = (CreateDirectoryA(fp.decompression_path, NULL) || GetLastError() == ERROR_ALREADY_EXISTS);
+    if (ok2) printf("Extraction folder ready at: %s\n", fp.decompression_path);
+    else printf("Failed to create '%s'. Error: %lu\n", fp.decompression_path, GetLastError());
+
+    fp.success = ok1 && ok2;
+    return fp;
+}
+
+bool check_folder_creation(const FolderPaths paths) {
+    if (!paths.success) {
+        printf("Folder creation failed.\n");
+        return false;
+    }
+    else return true;
 }
